@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Relations Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Public Relations Registration</h1>
+    <h2>Register Below</h2>
+
+    <form action="/register" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required>
+
+        <label for="register_no">Register No.:</label>
+        <input type="text" name="register_no" id="register_no" required>
+
+        <label for="contact_no">Contact No.:</label>
+        <input type="text" name="contact_no" id="contact_no" required>
+
+        <label for="department">Department:</label>
+        <input type="text" name="department" id="department" required>
+
+        <label for="year">Year:</label>
+        <select name="year" id="year">
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+        </select>
+
+        <label for="status">Status:</label>
+        <select name="status" id="status">
+            <option value="Day Scholar">Day Scholar</option>
+            <option value="Hosteller">Hosteller</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>All Registrations</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Register No.</th>
+                <th>Contact No.</th>
+                <th>Department</th>
+                <th>Year</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reg in registrations %}
+            <tr>
+                <td>{{ reg.id }}</td>
+                <td>{{ reg.name }}</td>
+                <td>{{ reg.register_no }}</td>
+                <td>{{ reg.contact_no }}</td>
+                <td>{{ reg.department }}</td>
+                <td>{{ reg.year }}</td>
+                <td>{{ reg.status }}</td>
+                <td>
+                    <form action="/delete/{{ reg.id }}" method="POST" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
