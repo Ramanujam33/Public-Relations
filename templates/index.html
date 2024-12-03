@@ -3,75 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Public Relations Registration</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Member Management</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>Public Relations Registration</h1>
-    <h2>Register Below</h2>
+    <div class="container">
+        <h1>Member Management System</h1>
+        <form method="POST">
+            <input type="hidden" name="member_id" id="member_id">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" required>
+            
+            <label for="register_no">Register No.:</label>
+            <input type="text" name="register_no" id="register_no" required>
+            
+            <label for="contact_no">Contact No.:</label>
+            <input type="text" name="contact_no" id="contact_no" required>
+            
+            <label for="department">Department:</label>
+            <input type="text" name="department" id="department" required>
+            
+            <label for="year">Year:</label>
+            <select name="year" id="year" required>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+            </select>
+            
+            <label for="status">Day Scholar/Hosteller:</label>
+            <select name="status" id="status" required>
+                <option value="Day Scholar">Day Scholar</option>
+                <option value="Hosteller">Hosteller</option>
+            </select>
+            
+            <button type="submit" name="add">Submit</button>
+            <button type="reset">Reset</button>
+        </form>
 
-    <form action="/register" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" required>
+        <h2>Member Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Register No.</th>
+                    <th>Contact No.</th>
+                    <th>Department</th>
+                    <th>Year</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                <tr>
+                    <td>{{ member[1] }}</td>
+                    <td>{{ member[2] }}</td>
+                    <td>{{ member[3] }}</td>
+                    <td>{{ member[4] }}</td>
+                    <td>{{ member[5] }}</td>
+                    <td>{{ member[6] }}</td>
+                    <td>
+                        <button onclick="fillForm('{{ member[0] }}', '{{ member[1] }}', '{{ member[2] }}', '{{ member[3] }}', '{{ member[4] }}', '{{ member[5] }}', '{{ member[6] }}')">Edit</button>
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="member_id" value="{{ member[0] }}">
+                            <button type="submit" name="delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-        <label for="register_no">Register No.:</label>
-        <input type="text" name="register_no" id="register_no" required>
-
-        <label for="contact_no">Contact No.:</label>
-        <input type="text" name="contact_no" id="contact_no" required>
-
-        <label for="department">Department:</label>
-        <input type="text" name="department" id="department" required>
-
-        <label for="year">Year:</label>
-        <select name="year" id="year">
-            <option value="1st Year">1st Year</option>
-            <option value="2nd Year">2nd Year</option>
-            <option value="3rd Year">3rd Year</option>
-            <option value="4th Year">4th Year</option>
-        </select>
-
-        <label for="status">Status:</label>
-        <select name="status" id="status">
-            <option value="Day Scholar">Day Scholar</option>
-            <option value="Hosteller">Hosteller</option>
-        </select>
-
-        <button type="submit">Submit</button>
-    </form>
-
-    <h2>All Registrations</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Register No.</th>
-                <th>Contact No.</th>
-                <th>Department</th>
-                <th>Year</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for reg in registrations %}
-            <tr>
-                <td>{{ reg.id }}</td>
-                <td>{{ reg.name }}</td>
-                <td>{{ reg.register_no }}</td>
-                <td>{{ reg.contact_no }}</td>
-                <td>{{ reg.department }}</td>
-                <td>{{ reg.year }}</td>
-                <td>{{ reg.status }}</td>
-                <td>
-                    <form action="/delete/{{ reg.id }}" method="POST" style="display:inline;">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <script>
+        function fillForm(id, name, register_no, contact_no, department, year, status) {
+            document.getElementById('member_id').value = id;
+            document.getElementById('name').value = name;
+            document.getElementById('register_no').value = register_no;
+            document.getElementById('contact_no').value = contact_no;
+            document.getElementById('department').value = department;
+            document.getElementById('year').value = year;
+            document.getElementById('status').value = status;
+        }
+    </script>
 </body>
 </html>
